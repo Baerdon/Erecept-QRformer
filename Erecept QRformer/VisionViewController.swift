@@ -1,12 +1,3 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Vision view controller.
-			Recognizes text using a Vision VNRecognizeTextRequest request handler in pixel buffers from an AVCaptureOutput.
-			Displays bounding boxes around recognized text results in real time.
-*/
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -43,15 +34,15 @@ class VisionViewController: ViewController {
 			guard let candidate = visionResult.topCandidates(maximumCandidates).first else { continue }
 			
 			// Draw red boxes around any detected text, and green boxes around
-			// any detected phone numbers. The phone number may be a substring
+			// any detected IDs. The ID may be a substring
 			// of the visionResult. If a substring, draw a green box around the
-			// number and a red box around the full string. If the number covers
+			// ID and a red box around the full string. If the ID covers
 			// the full result only draw the green box.
 			var numberIsSubstring = true
 			
-			if let result = candidate.string.extractPhoneNumber() {
+			if let result = candidate.string.extractID() {
 				let (range, number) = result
-				// Number may not cover full visionResult. Extract bounding box
+				// ID may not cover full visionResult. Extract bounding box
 				// of substring.
 				if let box = try? candidate.boundingBox(for: range)?.boundingBox {
 					numbers.append(number)
@@ -64,11 +55,11 @@ class VisionViewController: ViewController {
 			}
 		}
 		
-		// Log any found numbers.
+		// Log any found IDs.
 		numberTracker.logFrame(strings: numbers)
 		show(boxGroups: [(color: UIColor.red.cgColor, boxes: redBoxes), (color: UIColor.green.cgColor, boxes: greenBoxes)])
 		
-		// Check if we have any temporally stable numbers.
+		// Check if we have any temporally stable IDs.
 		if let sureNumber = numberTracker.getStableString() {
 			showString(string: sureNumber)
 			numberTracker.reset(string: sureNumber)
@@ -79,8 +70,7 @@ class VisionViewController: ViewController {
 		if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
 			// Configure for running in real-time.
 			request.recognitionLevel = .fast
-			// Language correction won't help recognizing phone numbers. It also
-			// makes recognition slower.
+			// Language correction won't help recognizing IDs. It also makes recognition slower.
 			request.usesLanguageCorrection = false
 			// Only run on the region of interest for maximum speed.
 			request.regionOfInterest = regionOfInterest

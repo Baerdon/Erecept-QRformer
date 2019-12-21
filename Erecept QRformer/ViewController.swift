@@ -1,10 +1,3 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Main view controller: handles camera, preview and cutout UI.
-*/
-
 import UIKit
 import AVFoundation
 import Vision
@@ -15,37 +8,30 @@ class ViewController: UIViewController {
 	@IBOutlet weak var cutoutView: UIView!
 	@IBOutlet weak var numberView: UILabel!
 	var maskLayer = CAShapeLayer()
-	// Device orientation. Updated whenever the orientation changes to a
-	// different supported orientation.
 	var currentOrientation = UIDeviceOrientation.portrait
 	
 	// MARK: - Capture related objects
 	private let captureSession = AVCaptureSession()
-    let captureSessionQueue = DispatchQueue(label: "com.example.apple-samplecode.CaptureSessionQueue")
+    let captureSessionQueue = DispatchQueue(label: "CaptureSessionQueue")
     
 	var captureDevice: AVCaptureDevice?
     
 	var videoDataOutput = AVCaptureVideoDataOutput()
-    let videoDataOutputQueue = DispatchQueue(label: "com.example.apple-samplecode.VideoDataOutputQueue")
+    let videoDataOutputQueue = DispatchQueue(label: "VideoDataOutputQueue")
     
 	// MARK: - Region of interest (ROI) and text orientation
-	// Region of video data output buffer that recognition should be run on.
-	// Gets recalculated once the bounds of the preview layer are known.
-	var regionOfInterest = CGRect(x: 0, y: 0, width: 1, height: 1)
-	// Orientation of text to search for in the region of interest.
+	var regionOfInterest = CGRect(x: 0, y: 0, width: 5, height: 5)
 	var textOrientation = CGImagePropertyOrientation.up
 	
 	// MARK: - Coordinate transforms
 	var bufferAspectRatio: Double!
-	// Transform from UI orientation to buffer orientation.
 	var uiRotationTransform = CGAffineTransform.identity
-	// Transform bottom-left coordinates to top-left.
 	var bottomToTopTransform = CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -1)
-	// Transform coordinates in ROI to global coordinates (still normalized).
 	var roiToGlobalTransform = CGAffineTransform.identity
 	
 	// Vision -> AVF coordinate transform.
 	var visionToAVFTransform = CGAffineTransform.identity
+    var QRview = UIImageView()
 	
 	// MARK: - View controller methods
 	
@@ -239,17 +225,36 @@ class ViewController: UIViewController {
 	// MARK: - UI drawing and interaction
 	
 	func showString(string: String) {
-		// Found a definite number.
+		// Found an ID.
 		// Stop the camera synchronously to ensure that no further buffers are
 		// received. Then update the number view asynchronously.
 		captureSessionQueue.sync {
 			self.captureSession.stopRunning()
             DispatchQueue.main.async {
-                self.numberView.text = string
-                self.numberView.isHidden = false
+                if let QRImage = self.generateQRCode(from: string) {
+                    self.cutoutView.backgroundColor = .white
+                    self.previewView.isHidden = true
+                    self.QRview = UIImageView(image: QRImage)
+                    self.QRview.center = CGPoint(x: self.previewView.bounds.width / 2, y: self.previewView.bounds.height / 2)
+                    self.view.addSubview(self.QRview)
+                }
             }
 		}
 	}
+    
+    func generateQRCode(from string: String) -> UIImage? {
+        let data = string.data(using: String.Encoding.ascii)
+
+        if let filter = CIFilter(name: "CIQRCodeGenerator") {
+            filter.setValue(data, forKey: "inputMessage")
+            let transform = CGAffineTransform(scaleX: 10, y: 10)
+
+            if let output = filter.outputImage?.transformed(by: transform) {
+                return UIImage(ciImage: output)
+            }
+        }
+        return nil
+    }
 	
 	@IBAction func handleTap(_ sender: UITapGestureRecognizer) {
         captureSessionQueue.async {
@@ -257,7 +262,9 @@ class ViewController: UIViewController {
                 self.captureSession.startRunning()
             }
             DispatchQueue.main.async {
-                self.numberView.isHidden = true
+                self.previewView.isHidden = false
+                self.cutoutView.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
+                self.QRview.removeFromSuperview()
             }
         }
 	}

@@ -4,13 +4,13 @@ extension String {
 	func extractID() -> (Range<String.Index>, String)? {
         // Pattern for e-recept ID
 		let pattern = #"""
-        ([P]\w{3}[ ]\w{4}[ ]\w{4})
+        ([P]\w{3}[ -]\w{4}[ -]\w{4})
         """#
 		
 		guard let range = self.range(of: pattern, options: .regularExpression, range: nil, locale: nil) else {
 			return nil
 		}
-        var phoneNumberDigits = ""
+        var IDcode = ""
 		let substring = String(self[range])
 		let nsrange = NSRange(substring.startIndex..., in: substring)
 		do {
@@ -20,13 +20,13 @@ extension String {
 				for rangeInd in 1 ..< match.numberOfRanges {
 					let range = match.range(at: rangeInd)
 					let matchString = (substring as NSString).substring(with: range)
-					phoneNumberDigits += matchString as String
+					IDcode += matchString as String
 				}
 			}
 		} catch {
 			print("Error \(error) when creating pattern")
 		}
-        return (range, phoneNumberDigits)
+        return (range, IDcode)
 	}
 }
 

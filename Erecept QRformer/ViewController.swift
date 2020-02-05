@@ -243,6 +243,7 @@ class ViewController: UIViewController {
 	}
     
     func generateQRCode(from string: String) -> UIImage? {
+        //tady eště nahradit špatné znaky za ty správné  (l->I, 0->O)
         let data = string.data(using: String.Encoding.ascii)
 
         if let filter = CIFilter(name: "CIQRCodeGenerator") {

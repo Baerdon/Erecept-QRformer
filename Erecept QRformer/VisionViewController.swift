@@ -7,15 +7,40 @@ class VisionViewController: ViewController {
 	var request: VNRecognizeTextRequest!
 	// Temporal string tracker
 	let numberTracker = StringTracker()
+    var recognizedText = ""
 	
 	override func viewDidLoad() {
 		// Set up vision request before letting ViewController set up the camera
 		// so that it exists when the first buffer is received.
-		request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
+        request = VNRecognizeTextRequest(completionHandler: { (request, error) in
+            if let results = request.results, !results.isEmpty {
+                if let requestResults = request.results as? [VNRecognizedTextObservation] {
+                    self.recognizedText = ""
+                    for observation in requestResults {
+                        guard let candidiate = observation.topCandidates(1).first else { return }
+                          self.recognizedText += candidiate.string
+                        //self.recognizedText += "\n"
+                    }
+                    if let match = self.processText(text: self.recognizedText) {
+                        self.showString(string: match)
+                    }
+                }
+            }
+        })
+		//request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
 
 		super.viewDidLoad()
 	}
 	
+    func processText(text: String) -> String? {
+        if let r = text.extractID() {
+            let res = r.1.correctString()
+            //tady eště úprava těch znaků, co budou špatně
+            return res
+        } else {
+            return nil
+        }
+    }
 	// MARK: - Text recognition
 	
 	// Vision recognition handler.
@@ -28,7 +53,7 @@ class VisionViewController: ViewController {
 			return
 		}
 		
-		let maximumCandidates = 1
+		let maximumCandidates = 1 //tady 3
 		
 		for visionResult in results {
 			guard let candidate = visionResult.topCandidates(maximumCandidates).first else { continue }
@@ -40,7 +65,7 @@ class VisionViewController: ViewController {
 			// the full result only draw the green box.
 			var numberIsSubstring = true
 			
-			if let result = candidate.string.extractID() {
+            if let result = candidate.string.extractID() {
 				let (range, number) = result
 				// ID may not cover full visionResult. Extract bounding box
 				// of substring.

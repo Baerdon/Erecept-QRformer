@@ -15,6 +15,7 @@
 		46D1B277226A6A9800C6D4A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46D1B275226A6A9800C6D4A7 /* LaunchScreen.storyboard */; };
 		46D1B27F226A6AAB00C6D4A7 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D1B27E226A6AAB00C6D4A7 /* PreviewView.swift */; };
 		46E86924226A9FC300C025A2 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E86923226A9FC300C025A2 /* StringUtils.swift */; };
+		46EBB2FD23EB685600B21753 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 46EBB2FC23EB685600B21753 /* TODO */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		46D1B278226A6A9800C6D4A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46D1B27E226A6AAB00C6D4A7 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		46E86923226A9FC300C025A2 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
+		46EBB2FC23EB685600B21753 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				46D1B273226A6A9800C6D4A7 /* Assets.xcassets */,
 				46D1B275226A6A9800C6D4A7 /* LaunchScreen.storyboard */,
 				46D1B278226A6A9800C6D4A7 /* Info.plist */,
+				46EBB2FC23EB685600B21753 /* TODO */,
 			);
 			path = "Erecept QRformer";
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			files = (
 				46D1B277226A6A9800C6D4A7 /* LaunchScreen.storyboard in Resources */,
 				46D1B274226A6A9800C6D4A7 /* Assets.xcassets in Resources */,
+				46EBB2FD23EB685600B21753 /* TODO in Resources */,
 				46D1B272226A6A9600C6D4A7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

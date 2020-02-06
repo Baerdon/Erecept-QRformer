@@ -1,13 +1,13 @@
 import Foundation
 
 extension String {
-	func extractID() -> (Range<String.Index>, String)? {
+    func extractID() -> (Range<String.Index>, String)? {
         // Pattern for e-recept ID
 		let pattern = #"""
-        ([P]\w{3}[ -]\w{4}[ -]\w{4})
+        ([P]\w{3}[ -]?\w{4}[ -]?\w{4})
         """#
 		
-		guard let range = self.range(of: pattern, options: .regularExpression, range: nil, locale: nil) else {
+        guard let range = self.range(of: pattern, options: .regularExpression, range: nil, locale: nil) else {
 			return nil
 		}
         var IDcode = ""
@@ -28,6 +28,13 @@ extension String {
 		}
         return (range, IDcode)
 	}
+    
+    func correctString() -> String {
+        var newString = self.replacingOccurrences(of: " ", with: "")
+        newString = newString.replacingOccurrences(of: "1", with: "I")
+        newString = newString.replacingOccurrences(of: "0", with: "O")
+        return newString
+    }
 }
 
 class StringTracker {

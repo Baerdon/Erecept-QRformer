@@ -27,8 +27,6 @@ class VisionViewController: ViewController {
                 }
             }
         })
-		//request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
-
 		super.viewDidLoad()
 	}
 	
@@ -42,54 +40,6 @@ class VisionViewController: ViewController {
         }
     }
 	// MARK: - Text recognition
-	
-	// Vision recognition handler.
-	func recognizeTextHandler(request: VNRequest, error: Error?) {
-		var numbers = [String]()
-		var redBoxes = [CGRect]() // Shows all recognized text lines
-		var greenBoxes = [CGRect]() // Shows words that might be serials
-		
-		guard let results = request.results as? [VNRecognizedTextObservation] else {
-			return
-		}
-		
-		let maximumCandidates = 1 //tady 3
-		
-		for visionResult in results {
-			guard let candidate = visionResult.topCandidates(maximumCandidates).first else { continue }
-			
-			// Draw red boxes around any detected text, and green boxes around
-			// any detected IDs. The ID may be a substring
-			// of the visionResult. If a substring, draw a green box around the
-			// ID and a red box around the full string. If the ID covers
-			// the full result only draw the green box.
-			var numberIsSubstring = true
-			
-            if let result = candidate.string.extractID() {
-				let (range, number) = result
-				// ID may not cover full visionResult. Extract bounding box
-				// of substring.
-				if let box = try? candidate.boundingBox(for: range)?.boundingBox {
-					numbers.append(number)
-					greenBoxes.append(box)
-					numberIsSubstring = !(range.lowerBound == candidate.string.startIndex && range.upperBound == candidate.string.endIndex)
-				}
-			}
-			if numberIsSubstring {
-				redBoxes.append(visionResult.boundingBox)
-			}
-		}
-		
-		// Log any found IDs.
-		numberTracker.logFrame(strings: numbers)
-		show(boxGroups: [(color: UIColor.red.cgColor, boxes: redBoxes), (color: UIColor.green.cgColor, boxes: greenBoxes)])
-		
-		// Check if we have any temporally stable IDs.
-		if let sureNumber = numberTracker.getStableString() {
-			showString(string: sureNumber)
-			numberTracker.reset(string: sureNumber)
-		}
-	}
 	
 	override func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 		if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
@@ -132,19 +82,4 @@ class VisionViewController: ViewController {
 	}
 	
 	typealias ColoredBoxGroup = (color: CGColor, boxes: [CGRect])
-	
-	// Draws groups of colored boxes.
-	func show(boxGroups: [ColoredBoxGroup]) {
-		DispatchQueue.main.async {
-			let layer = self.previewView.videoPreviewLayer
-			self.removeBoxes()
-			for boxGroup in boxGroups {
-				let color = boxGroup.color
-				for box in boxGroup.boxes {
-					let rect = layer.layerRectConverted(fromMetadataOutputRect: box.applying(self.visionToAVFTransform))
-					self.draw(rect: rect, color: color)
-				}
-			}
-		}
-	}
 }

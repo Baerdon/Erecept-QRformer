@@ -39,6 +39,7 @@ class VisionViewController: ViewController {
             return nil
         }
     }
+    
 	// MARK: - Text recognition
 	
 	override func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
@@ -58,28 +59,4 @@ class VisionViewController: ViewController {
 			}
 		}
 	}
-	
-	// MARK: - Bounding box drawing
-	
-	// Draw a box on screen. Must be called from main queue.
-	var boxLayer = [CAShapeLayer]()
-	func draw(rect: CGRect, color: CGColor) {
-		let layer = CAShapeLayer()
-		layer.opacity = 0.5
-		layer.borderColor = color
-		layer.borderWidth = 1
-		layer.frame = rect
-		boxLayer.append(layer)
-		previewView.videoPreviewLayer.insertSublayer(layer, at: 1)
-	}
-	
-	// Remove all drawn boxes. Must be called on main queue.
-	func removeBoxes() {
-		for layer in boxLayer {
-			layer.removeFromSuperlayer()
-		}
-		boxLayer.removeAll()
-	}
-	
-	typealias ColoredBoxGroup = (color: CGColor, boxes: [CGRect])
 }

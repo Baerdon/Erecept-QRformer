@@ -17,8 +17,8 @@ class VisionViewController: ViewController {
                 if let requestResults = request.results as? [VNRecognizedTextObservation] {
                     self.recognizedText = ""
                     for observation in requestResults {
-                        guard let candidiate = observation.topCandidates(1).first else { return }
-                          self.recognizedText += candidiate.string
+                        guard let candidate = observation.topCandidates(1).first else { return }
+                          self.recognizedText += candidate.string
                         //self.recognizedText += "\n"
                     }
                     if let match = self.processText(text: self.recognizedText) {

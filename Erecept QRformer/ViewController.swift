@@ -93,8 +93,8 @@ class ViewController: UIViewController {
 		// buffer width to height. When the UI is rotated to portrait, keep the
 		// vertical size the same (in buffer pixels). Also try to keep the
 		// horizontal size the same up to a maximum ratio.
-		let desiredHeightRatio = 0.15
-		let desiredWidthRatio = 0.6
+		let desiredHeightRatio = 0.4
+		let desiredWidthRatio = 0.8
 		let maxPortraitWidth = 0.8
 		
 		// Figure out size of ROI.

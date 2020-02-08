@@ -19,7 +19,6 @@ class VisionViewController: ViewController {
                     for observation in requestResults {
                         guard let candidate = observation.topCandidates(1).first else { return }
                           self.recognizedText += candidate.string
-                        //self.recognizedText += "\n"
                     }
                     if let match = self.processText(text: self.recognizedText) {
                         self.showString(string: match)

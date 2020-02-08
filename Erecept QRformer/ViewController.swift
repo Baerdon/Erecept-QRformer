@@ -86,8 +86,8 @@ class ViewController: UIViewController {
         // buffer width to height. When the UI is rotated to portrait, keep the
         // vertical size the same (in buffer pixels). Also try to keep the
         // horizontal size the same up to a maximum ratio.
-        let desiredHeightRatio = 0.4
-        let desiredWidthRatio = 0.6
+        let desiredHeightRatio = 0.5
+        let desiredWidthRatio = 0.8
         let maxPortraitWidth = 0.8
         
         // Figure out size of ROI.
@@ -217,6 +217,8 @@ class ViewController: UIViewController {
     
     // MARK: - UI drawing and interaction
     var QRview = UIImageView()
+    var IDLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+    var infoLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
     
     func showString(string: String) {
         // Found an ID.
@@ -231,6 +233,17 @@ class ViewController: UIViewController {
                     self.QRview = UIImageView(image: QRImage)
                     self.QRview.center = CGPoint(x: self.previewView.bounds.width / 2, y: self.previewView.bounds.height / 2)
                     self.view.addSubview(self.QRview)
+                    self.IDLabel.textAlignment = .center
+                    self.IDLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+                    self.IDLabel.center = CGPoint(x: self.previewView.bounds.width / 2, y: (self.previewView.bounds.height / 2) - 150)
+                    self.IDLabel.text = string
+                    self.view.addSubview(self.IDLabel)
+                    self.infoLabel.textAlignment = .center
+                    self.infoLabel.numberOfLines = 2
+                    self.infoLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+                    self.infoLabel.center = CGPoint(x: self.previewView.bounds.width / 2, y: (self.previewView.bounds.height / 2) + 180)
+                    self.infoLabel.text = "Tap to scan another ID"
+                    self.view.addSubview(self.infoLabel)
                 }
             }
         }
@@ -259,6 +272,8 @@ class ViewController: UIViewController {
                 self.previewView.isHidden = false
                 self.cutoutView.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
                 self.QRview.removeFromSuperview()
+                self.IDLabel.removeFromSuperview()
+                self.infoLabel.removeFromSuperview()
             }
         }
     }

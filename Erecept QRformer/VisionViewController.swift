@@ -6,7 +6,7 @@ import Vision
 class VisionViewController: ViewController {
     var request: VNRecognizeTextRequest!
     // Temporal string tracker
-    let numberTracker = StringTracker()
+    let idTracker = StringTracker()
     
     override func viewDidLoad() {
         // Set up vision request before letting ViewController set up the camera
@@ -20,7 +20,7 @@ class VisionViewController: ViewController {
     
     // Vision recognition handler.
     func recognizeTextHandler(request: VNRequest, error: Error?) {
-        var numbers = [String]()
+        var ids = [String]()
         guard let results = request.results as? [VNRecognizedTextObservation] else {
             return
         }
@@ -31,17 +31,17 @@ class VisionViewController: ViewController {
             guard let candidate = visionResult.topCandidates(maximumCandidates).first else { continue }
             stringToCheck += candidate.string
             if let result = stringToCheck.extractID() {
-                numbers.append(result.1)
+                ids.append(result.1)
             }
         }
         
         // Log any found numbers.
-        numberTracker.logFrame(strings: numbers)
+        idTracker.logFrame(strings: ids)
         
         // Check if we have any temporally stable numbers.
-        if let sureNumber = numberTracker.getStableString() {
+        if let sureNumber = idTracker.getStableString() {
             showString(string: sureNumber)
-            numberTracker.reset(string: sureNumber)
+            idTracker.reset(string: sureNumber)
         }
     }
     

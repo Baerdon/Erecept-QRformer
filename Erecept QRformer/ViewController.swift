@@ -123,9 +123,9 @@ class ViewController: UIViewController {
         maskLayer.path = path.cgPath
         
         // Move the number view down to under cutout.
-        var numFrame = cutout
-        numFrame.origin.y += numFrame.size.height
-        numberView.frame = numFrame
+        //var numFrame = cutout
+        //numFrame.origin.y += numFrame.size.height
+        //numberView.frame = numFrame
     }
     
     func setupOrientationAndTransform() {

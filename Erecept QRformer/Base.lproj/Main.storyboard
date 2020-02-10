@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,18 +10,18 @@
         <!--Vision View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="VisionViewController" customModule="RealtimeNumberReader" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="VisionViewController" customModule="Erecept_QRformer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dCx-30-dWq" customClass="PreviewView" customModule="RealtimeNumberReader" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dCx-30-dWq" customClass="PreviewView" customModule="Erecept_QRformer" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4LZ-uG-TOw" userLabel="Cutout View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -29,7 +29,7 @@
                                 </connections>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCN-B8-Glk">
-                                <rect key="frame" x="207" y="448" width="0.0" height="0.0"/>
+                                <rect key="frame" x="187.5" y="333.5" width="0.0" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <attributedString key="attributedText"/>
                                 <nil key="highlightedColor"/>
@@ -42,10 +42,14 @@
                             <constraint firstItem="dCx-30-dWq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Hnz-aJ-uAm"/>
                             <constraint firstItem="dCx-30-dWq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YR5-lB-gXO"/>
                             <constraint firstAttribute="trailing" secondItem="dCx-30-dWq" secondAttribute="trailing" id="cZC-nJ-9CE"/>
+                            <constraint firstItem="lCN-B8-Glk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="333.5" id="eEg-0U-WS7"/>
                             <constraint firstItem="4LZ-uG-TOw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="en1-rS-BZm"/>
+                            <constraint firstAttribute="bottom" secondItem="lCN-B8-Glk" secondAttribute="bottom" constant="333.5" id="kLj-a3-UpM"/>
                             <constraint firstAttribute="bottom" secondItem="4LZ-uG-TOw" secondAttribute="bottom" id="nGI-eX-p4U"/>
+                            <constraint firstItem="lCN-B8-Glk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="187.5" id="q3B-oc-2qq"/>
                             <constraint firstItem="lCN-B8-Glk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" placeholder="YES" id="qSE-0e-Bvk"/>
                             <constraint firstItem="lCN-B8-Glk" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" placeholder="YES" id="rwB-hc-dcB"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lCN-B8-Glk" secondAttribute="trailing" symbolic="YES" id="xHg-dJ-51B"/>
                             <constraint firstItem="4LZ-uG-TOw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="zr2-bi-Zte"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
